@@ -9,7 +9,6 @@ This is the cheapest with capability to connect with Mobile Phone or Computer. T
 BLE devices Browser
 Real time display
 ## Ui
-<img width="512" alt="image" src="https://user-images.githubusercontent.com/45794975/169841901-06f677c0-ed31-4b4d-a858-aab986829d4f.png">
 <img width="512" alt="image" src="https://user-images.githubusercontent.com/45794975/169850282-e5b92050-d4e4-4bbd-a300-ee410a5a40ed.png">
 ## Things To Do
 -Data Export
