@@ -15,9 +15,11 @@ Real time display
 -Data Export
 -Real time plot
 ## Development
-Python 3.8 + PyQt5
-The way to compile to exe:
+Python 3.8
+PyQt5 + Bleak
+The way to compile for Windows:
 `pyinstaller -F -w main.py`
+Cross-platform ability in theory, but not test yet.
 ## License
 GPL v3.0
 ## References
