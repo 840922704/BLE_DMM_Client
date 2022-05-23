@@ -12,8 +12,8 @@ Real time display <br>
 <img width="512" alt="image" src="https://user-images.githubusercontent.com/45794975/169850282-e5b92050-d4e4-4bbd-a300-ee410a5a40ed.png">
 
 ## Things To Do
--Data Export, <br>
--Real time plot, <br>
+--Data Export <br>
+--Real time plot <br>
 ## Development
 Python 3.8 <br>
 PyQt5 + Bleak <br>
