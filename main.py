@@ -7,7 +7,7 @@ import logging
 import asyncio
 from Ui.MainWindow import Ui_MainWindow
 from Ui.Dialog import Ui_Dialog
-from decoder import decoder
+from decoder import decoder_11, decoder_10
 from bleak import BleakClient
 import time
 import threading
@@ -67,10 +67,15 @@ class DialogWindow(QDialog, Ui_Dialog):
                     print('now')
                     while 1: 
                         value = bytes(await client.read_gatt_char(8, use_cached=1))
-                        
-                        A = decoder.printdigit(decoder.decode(value.hex()))
-                        B = decoder.printchar(decoder.decode(value.hex()))
-                            
+                        ## print(value.hex())
+                        ## 11 Byte DMM
+                        if len(value.hex()) == 22:
+                            A = decoder_11.printdigit(decoder_11.decode(value.hex()))
+                            B = decoder_11.printchar(decoder_11.decode(value.hex()))
+                        ## 10 Byte DMM
+                        elif len(value.hex()) == 20:
+                            A = decoder_10.printdigit(decoder_10.decode(value.hex()))
+                            B = decoder_10.printchar(decoder_10.decode(value.hex()))
 
                         #self.t.append(time.time())
                         self.t = time.asctime(time.localtime(time.time()))
