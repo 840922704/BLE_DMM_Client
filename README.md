@@ -8,7 +8,7 @@ This is the cheapest with capability to connect with Mobile Phone or Computer. T
 ## Achived functions
 - BLE devices Browser <br>
 - Real time display <br>
-## Ui
+## UI
 <img width="512" alt="image" src="https://user-images.githubusercontent.com/45794975/169850282-e5b92050-d4e4-4bbd-a300-ee410a5a40ed.png">
 
 ## Things To Do
