@@ -171,7 +171,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.progressBar.setValue(100)
     def change_address(self, item):
         global ADDRESS
-        ADDRESS = item.text()[:17]
+        ADDRESS = item.text().split(": ")[0]
         print(ADDRESS)
 ###BLE Devices Above
 
