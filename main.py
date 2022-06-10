@@ -50,10 +50,12 @@ class DialogWindow(QDialog, Ui_Dialog):
         '''
         这里使用python的threading.Thread构造线程，并将线程设置为守护线程，这样
         主线程退出后守护线程也会跟着销毁
+        Here we use python's threading.Thread to construct a thread, and set the thread as a daemon thread, 
+        so that the daemon thread will also be destroyed after the main thread exits.
         '''
-        print('守护线程启动')
+        print('Daemon thread starts')
         self.pushButton.setEnabled(False)
-        print('Start lisnening to Bluetooth')
+        print('Start listening to Bluetooth')
         thread = threading.Thread(target=self.getdata)
         thread.setDaemon(True) # 守护线程
 
@@ -149,8 +151,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def startThread_devices(self):
         '''
-        这里使用python的threading.Thread构造线程，并将线程设置为守护线程，这样
-        主线程退出后守护线程也会跟着销毁
+        daemon thread
         '''
         print('Searching Bluetooth devices')
         thread = threading.Thread(target=self.search_devices_2)
