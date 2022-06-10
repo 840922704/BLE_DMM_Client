@@ -73,15 +73,18 @@ class DialogWindow(QDialog, Ui_Dialog):
                         ## 11 Byte DMM
                         if len(value.hex()) == 22:
                             A = decoder_11.printdigit(decoder_11.decode(value.hex()))
-                            B = decoder_11.printchar(decoder_11.decode(value.hex()))
+                            # list to str
+                            B = ' '.join(decoder_11.printchar(decoder_11.decode(value.hex())))
                         ## 10 Byte DMM
                         elif len(value.hex()) == 20:
                             A = decoder_10.printdigit(decoder_10.decode(value.hex()))
-                            B = decoder_10.printchar(decoder_10.decode(value.hex()))
+                            # list to str
+                            B = ' '.join(decoder_10.printchar(decoder_10.decode(value.hex())))
 
                         #self.t.append(time.time())
                         self.t = time.asctime(time.localtime(time.time()))
                         print(A)
+                        print(B)
                         self.digi = round(float(A), 3)
                         self.char = str(B)
                         signal = (self.t,(self.digi, self.char))
