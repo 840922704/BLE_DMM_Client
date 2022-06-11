@@ -1,4 +1,4 @@
-## Core data process modules decompilered fron android app
+## Core data process modules decompiled fron android app
 
 **The path of myenum**: /com/yscoco/wyboem/myenum
 
