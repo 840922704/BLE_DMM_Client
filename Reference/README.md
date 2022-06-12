@@ -1,4 +1,4 @@
-## Core data process modules decompiled fron android app
+## Core data process modules decompiled from android app
 
 ## Origin path in the android app project
 
