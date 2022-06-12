@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>455</width>
+    <width>558</width>
     <height>384</height>
    </rect>
   </property>
@@ -69,7 +69,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Connect to chosen device</string>
+       <string>Connect to selected device</string>
       </property>
      </widget>
     </item>
@@ -80,23 +80,16 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>455</width>
+     <width>558</width>
      <height>22</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuFile">
-    <property name="title">
-     <string>File</string>
-    </property>
-    <addaction name="actionOpen"/>
-    <addaction name="actionSave"/>
-   </widget>
    <widget class="QMenu" name="menuAbout">
     <property name="title">
      <string>About</string>
     </property>
+    <addaction name="actionAbout"/>
    </widget>
-   <addaction name="menuFile"/>
    <addaction name="menuAbout"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -108,6 +101,11 @@
   <action name="actionSave">
    <property name="text">
     <string>Save</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
    </property>
   </action>
  </widget>
