@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'c:\Users\xy790\Desktop\BLE\Ui_test\Dialog.ui'
+# Form implementation generated from reading ui file 'c:\Users\xy790\Desktop\Sub_Research\IoT_Sensor\ESP32C3\BLE\V0.3\Dialog.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(378, 278)
+        Dialog.resize(405, 368)
         self.verticalLayout = QtWidgets.QVBoxLayout(Dialog)
         self.verticalLayout.setObjectName("verticalLayout")
         self.label = QtWidgets.QLabel(Dialog)
@@ -24,13 +24,23 @@ class Ui_Dialog(object):
         self.label.setFont(font)
         self.label.setObjectName("label")
         self.verticalLayout.addWidget(self.label)
-        self.pushButton = QtWidgets.QPushButton(Dialog)
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        self.pushButton_start = QtWidgets.QPushButton(Dialog)
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(12)
-        self.pushButton.setFont(font)
-        self.pushButton.setObjectName("pushButton")
-        self.verticalLayout.addWidget(self.pushButton)
+        self.pushButton_start.setFont(font)
+        self.pushButton_start.setObjectName("pushButton_start")
+        self.horizontalLayout_2.addWidget(self.pushButton_start)
+        self.pushButton_stop = QtWidgets.QPushButton(Dialog)
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        font.setPointSize(12)
+        self.pushButton_stop.setFont(font)
+        self.pushButton_stop.setObjectName("pushButton_stop")
+        self.horizontalLayout_2.addWidget(self.pushButton_stop)
+        self.verticalLayout.addLayout(self.horizontalLayout_2)
         self.lcdNumber = QtWidgets.QLCDNumber(Dialog)
         self.lcdNumber.setMinimumSize(QtCore.QSize(360, 120))
         font = QtGui.QFont()
@@ -47,6 +57,24 @@ class Ui_Dialog(object):
         self.label_2.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.label_2.setObjectName("label_2")
         self.verticalLayout.addWidget(self.label_2)
+        self.graph_layout = QtWidgets.QVBoxLayout()
+        self.graph_layout.setObjectName("graph_layout")
+        self.verticalLayout.addLayout(self.graph_layout)
+        self.horizontalLayout = QtWidgets.QHBoxLayout()
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.checkBox = QtWidgets.QCheckBox(Dialog)
+        self.checkBox.setObjectName("checkBox")
+        self.horizontalLayout.addWidget(self.checkBox)
+        self.label_3 = QtWidgets.QLabel(Dialog)
+        self.label_3.setObjectName("label_3")
+        self.horizontalLayout.addWidget(self.label_3)
+        self.comboBox = QtWidgets.QComboBox(Dialog)
+        self.comboBox.setObjectName("comboBox")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
+        self.horizontalLayout.addWidget(self.comboBox)
+        self.verticalLayout.addLayout(self.horizontalLayout)
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -54,6 +82,12 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
-        self.label.setText(_translate("Dialog", "<html><head/><body><p><span style=\" font-size:20pt;\">MAC:</span></p></body></html>"))
-        self.pushButton.setText(_translate("Dialog", "Start"))
+        self.label.setText(_translate("Dialog", "<html><head/><body><p>Address:</p></body></html>"))
+        self.pushButton_start.setText(_translate("Dialog", "Start"))
+        self.pushButton_stop.setText(_translate("Dialog", "Stop"))
         self.label_2.setText(_translate("Dialog", "<html><head/><body><p><br/></p></body></html>"))
+        self.checkBox.setText(_translate("Dialog", "Save Data to current fold"))
+        self.label_3.setText(_translate("Dialog", "     Record Speed:"))
+        self.comboBox.setItemText(0, _translate("Dialog", "High"))
+        self.comboBox.setItemText(1, _translate("Dialog", "Medium"))
+        self.comboBox.setItemText(2, _translate("Dialog", "Low"))
