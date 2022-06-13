@@ -1,18 +1,22 @@
+import os
 import sys
 from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QDialog
-import logging
-import asyncio
+from PyQt5.QtWidgets import QMessageBox, QDialog
+from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtGui import QFont, QIcon
+import pyqtgraph as pg
+
 from Ui.MainWindow import Ui_MainWindow
 from Ui.Dialog import Ui_Dialog
 from decoder import decoder_11, decoder_10
+
+import logging
+import asyncio
 from bleak import BleakClient
 import time
 import threading
-from PyQt5.QtCore import pyqtSignal, QThread, QTimer
-from PyQt5.QtGui import QFont, QIcon
 from bleak import BleakScanner
-import pyqtgraph as pg
+
 from datetime import datetime
 
 
@@ -30,11 +34,23 @@ class DialogWindow(QDialog, Ui_Dialog):
         self.t = []
         self.digi = []
         self.char = []
-        self.lcdNumber.setStyleSheet("line-height:200%")
-        self.lcdNumber.setDigitCount(8)
+
+        self.label_LCD.setText("0.000")
+
         self.pushButton_start.clicked.connect(self.startThread)
         self.pushButton_stop.clicked.connect(self.stopThread)
+        self.pushButton_datapath.clicked.connect(self.data_path)
 
+
+
+        self.SliderBar_buffered_points.setMinimum(1)
+        self.SliderBar_buffered_points.setMaximum(200)
+        self.SliderBar_buffered_points.setValue(100)
+
+        self.SliderBar_buffered_points.valueChanged.connect(self.SliderBar_value)
+
+        self.Filepath = os.path.abspath('.')+"\\"+"Saved_Data"
+        self.pushButton_datapath.setToolTip(self.Filepath)
 
         # Add pyqtgraph to qtwidget
         self.plot_plt = pg.PlotWidget()
@@ -69,6 +85,14 @@ class DialogWindow(QDialog, Ui_Dialog):
 
         # stopThread
         self.stop_collect = 0
+
+
+    def SliderBar_value(self):
+        value=self.SliderBar_buffered_points.value()*100 #读取当前滑动条值
+        self.max_points.setText(str(value)) #做了个强转，不然报错：label框需要str类型值
+        self.plotclear_param = value
+
+
 
     def stopThread(self):
         self.stop_collect = 1
@@ -105,36 +129,45 @@ class DialogWindow(QDialog, Ui_Dialog):
                     while self.stop_collect == 0 : 
                         
                         value = bytes(await client.read_gatt_char(8, use_cached=1))
-                        ## print(value.hex())
+                        print(value.hex())
+                        print(type(value))
+                        print(value)
                         ## 11 Byte DMM
                         if len(value.hex()) == 22:
                             A = decoder_11.printdigit(decoder_11.decode(value.hex()))
                             # list to str
-                            B = ' '.join(decoder_11.printchar(decoder_11.decode(value.hex())))
+                            #B = ' '.join(decoder_11.printchar(decoder_11.decode(value.hex())))
+                            B = decoder_11.printchar(decoder_11.decode(value.hex()))
                         ## 10 Byte DMM
                         elif len(value.hex()) == 20:
                             A = decoder_10.printdigit(decoder_10.decode(value.hex()))
                             # list to str
-                            B = ' '.join(decoder_10.printchar(decoder_10.decode(value.hex())))
+                            B = decoder_10.printchar(decoder_10.decode(value.hex()))
 
                         #self.t.append(time.time())
                         now = datetime.now()
                         self.t = now.strftime('%Y-%m-%d %H:%M:%S')
                         #self.t = time.asctime(time.localtime(time.time()))
                         
+
+                        self.B_function = ' '.join(B[0])
+                        self.B_unit = ' '.join(B[1])
                         print(A)
-                        print(B)
-                        self.digi = float(A)
-                        self.char = str(B)
-                        signal = (self.t,(self.digi, self.char))
+                        print(self.B_function+" "+self.B_unit)
+                        self.digi = str(A)
+                        self.char_function = str(self.B_function)
+                        self.char_unit = str(self.B_unit)
+                        signal = (self.t,(self.digi, self.char_unit),self.char_function)
                         self.newdata.emit(signal)
                         print(self.t)
                         #self.lcdNumber.display(signal[1][0])
-                        #self.label_2.setText(signal[1][1])
-                        self.newdata.emit(signal)
+                        #self.label_unit.setText(signal[1][1])
+                        #self.newdata.emit(signal)
                         time.sleep(1/3)
                     # when stop button be pushed, clear connection
-                    self.lcdNumber.display(0)
+
+                    self.label_LCD.setText("0.000")
+
                     self.plot_plt.clear()
                     self.data_list=[]
                     try:
@@ -144,6 +177,7 @@ class DialogWindow(QDialog, Ui_Dialog):
                     print("Closed successfully")
                 except:
                     print('Connection Closed')
+                    self.label_LCD.setText("0.000")
                     self.pushButton_start.setEnabled(True)
         except:
             self.pushButton.start.setEnabled(True)
@@ -158,6 +192,12 @@ class DialogWindow(QDialog, Ui_Dialog):
             print(ADDRESS)
             print("No device found")
 
+    #Data save directory
+    def data_path(self):
+        self.Filepath = QtWidgets.QFileDialog.getExistingDirectory(None,"Please Choose File Path",self.Filepath)  # 起始路径
+        if not os.path.exists(self.Filepath):
+            os.makedirs(self.Filepath)
+
     # real time plot
     def plot(self,signal):
         # combobox for different speed
@@ -170,11 +210,18 @@ class DialogWindow(QDialog, Ui_Dialog):
             self.plotspeed_param = 23
 
         # real time lcd and label
-        self.lcdNumber.display(signal[1][0])
-        self.label_2.setText(signal[1][1])
+
+        self.label_LCD.setText(str(signal[1][0]))
+
+        self.label_unit.setText(signal[1][1])
+        self.label_function.setText(signal[2])
         # pyqtgraph with different speed
         if self.a > self.plotspeed_param:
-            self.data_list.append(signal[1][0])
+            try:
+                plot_data = float(signal[1][0])
+            except:
+                plot_data = float(0)
+            self.data_list.append(plot_data)
             self.plot_plt.plot().setData(self.data_list,pen='w')
             self.a = 0
             self.b = self.b + 1
@@ -189,13 +236,15 @@ class DialogWindow(QDialog, Ui_Dialog):
             now = datetime.now()
             if self.checkBox_isChecked != self.checkBox.isChecked():
                 if self.checkBox.isChecked() == True:
-                    f = open(now.strftime('%Y-%m-%d')+'.txt',mode = 'a', encoding='utf-8')
-                    f.write(str(signal[0])+"   "+str(signal[1][0])+" "+signal[1][1]+"\n")
+                    if not os.path.exists(self.Filepath):
+                        os.makedirs(self.Filepath)
+                    f = open(self.Filepath +'\\' + now.strftime('%Y-%m-%d')+'.txt',mode = 'a', encoding='utf-8')
+                    f.write(str(signal[0])+"   "+signal[1][0]+" "+signal[1][1]+" "+signal[2]+"\n")
                 elif self.checkBox.isChecked() == False:
                     f.close()
             else:
                 if self.checkBox.isChecked() == True:
-                    f.write(str(signal[0])+"   "+str(signal[1][0])+" "+signal[1][1]+"\n")
+                    f.write(str(signal[0])+"   "+signal[1][0]+" "+signal[1][1]+" "+signal[2]+"\n")
                 #elif self.checkBox.isChecked() == False:
                     #f.close()
 
@@ -209,7 +258,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
         self.setWindowTitle('BlueTooth-DMM Client')
-        self.setWindowIcon(QIcon('Logo.png'))
+        #self.setWindowIcon(QIcon('Logo.png'))
         self.count = 0
 
 ###BLE Devices Below
@@ -293,8 +342,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    f = QFont("Arial",12);
-    app.setFont(f);
+    f = QFont("Arial",12)
+    app.setFont(f)
     mainWindow = MainWindow()
+    app.setWindowIcon(QIcon('Logo.png'))
     mainWindow.show()
     sys.exit(app.exec_())
