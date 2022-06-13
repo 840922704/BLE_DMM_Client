@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'c:\Users\xy790\Desktop\Sub_Research\IoT_Sensor\ESP32C3\BLE\V0.3\MainWindow.ui'
+# Form implementation generated from reading ui file '..\MainWindow.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
