@@ -50,6 +50,8 @@ class DialogWindow(QDialog, Ui_Dialog):
         self.SliderBar_buffered_points.valueChanged.connect(self.SliderBar_value)
 
         self.Filepath = os.path.abspath('.')+"\\"+"Saved_Data"
+        if not os.path.exists(self.Filepath):
+            os.makedirs(self.Filepath)
         self.pushButton_datapath.setToolTip(self.Filepath)
 
         # Add pyqtgraph to qtwidget
