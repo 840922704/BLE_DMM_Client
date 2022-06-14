@@ -28,7 +28,7 @@ class DialogWindow(QDialog, Ui_Dialog):
     def __init__(self, parent=None):
         super(DialogWindow, self).__init__(parent)
         self.setupUi(self)
-        self.setWindowTitle('BlueTooth-DMM Monitor')
+        self.setWindowTitle('BLE DMM Monitor')
         #BLE Devices
         self.logger = logging.getLogger(__name__)
         self.t = []
@@ -256,7 +256,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
-        self.setWindowTitle('BlueTooth-DMM Client')
+        self.setWindowTitle('BLE DMM Client')
         #self.setWindowIcon(QIcon('Logo.png'))
         self.count = 0
 
