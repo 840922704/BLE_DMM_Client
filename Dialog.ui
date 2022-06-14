@@ -15,17 +15,27 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QLabel" name="label">
-     <property name="font">
-      <font>
-       <family>Arial</family>
-       <pointsize>12</pointsize>
-      </font>
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <property name="topMargin">
+      <number>5</number>
      </property>
-     <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Address:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     <property name="bottomMargin">
+      <number>5</number>
      </property>
-    </widget>
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>15</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Address:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -129,13 +139,23 @@
     <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="0,0,0">
      <item>
       <widget class="QLabel" name="label_4">
+       <property name="font">
+        <font>
+         <family>Arial</family>
+        </font>
+       </property>
        <property name="text">
-        <string>Max buffered points of graph:</string>
+        <string>Max buffer points of graph:</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLabel" name="max_points">
+       <property name="font">
+        <font>
+         <family>Arial</family>
+        </font>
+       </property>
        <property name="text">
         <string>5000</string>
        </property>
@@ -157,6 +177,11 @@
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QCheckBox" name="checkBox">
+       <property name="font">
+        <font>
+         <family>Arial</family>
+        </font>
+       </property>
        <property name="text">
         <string>Save Data</string>
        </property>
@@ -164,6 +189,11 @@
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_datapath">
+       <property name="font">
+        <font>
+         <family>Arial</family>
+        </font>
+       </property>
        <property name="text">
         <string>Data Path</string>
        </property>
@@ -171,6 +201,11 @@
      </item>
      <item>
       <widget class="QLabel" name="label_3">
+       <property name="font">
+        <font>
+         <family>Arial</family>
+        </font>
+       </property>
        <property name="text">
         <string>     Record Speed:</string>
        </property>
@@ -178,6 +213,11 @@
      </item>
      <item>
       <widget class="QComboBox" name="comboBox">
+       <property name="font">
+        <font>
+         <family>Arial</family>
+        </font>
+       </property>
        <item>
         <property name="text">
          <string>High</string>
