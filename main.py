@@ -53,9 +53,12 @@ class DialogWindow(QDialog, Ui_Dialog):
         self.pushButton_datapath.setToolTip(self.Filepath)
 
         # Add pyqtgraph to qtwidget
+        # Avoid error caused by packed by nuitka
+
         self.plot_plt = pg.PlotWidget()
-        self.plot_plt.showGrid(x=True,y=True)
+        #self.plot_plt.showGrid(x=True,y=True)
         self.graph_layout.addWidget(self.plot_plt)
+        
 
 
 #    def update_progressbar(self, p_int):
@@ -120,7 +123,7 @@ class DialogWindow(QDialog, Ui_Dialog):
             async with BleakClient(ADDRESS) as client:
                 self.logger.info(f"Connected: {client.is_connected}")
                 try:
-                    print('now')
+                    print('Start get data')
                     self.stop_collect = 0
                     while self.stop_collect == 0 : 
                         
@@ -324,7 +327,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         if signal == 0:
             self.progressBar.setRange(0,0)
         if signal == 100:
-            print("100")
             self.progressBar.setRange(0,100)
             self.progressBar.setValue(100)
         #for a in range(1,101,1):
