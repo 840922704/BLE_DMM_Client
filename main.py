@@ -338,9 +338,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
+    app.setWindowIcon(QIcon('Logo.png'))
     f = QFont("Arial",12)
     app.setFont(f)
     mainWindow = MainWindow()
-    app.setWindowIcon(QIcon('Logo.png'))
     mainWindow.show()
     sys.exit(app.exec_())
