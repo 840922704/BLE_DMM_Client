@@ -58,12 +58,8 @@ class DialogWindow(QDialog, Ui_Dialog):
         self.graph_layout.addWidget(self.plot_plt)
 
 
-
-
 #    def update_progressbar(self, p_int):
 #        self.progressBar.setValue(p_int)
-
-
 
 
         # plot speed
@@ -88,8 +84,8 @@ class DialogWindow(QDialog, Ui_Dialog):
 
 
     def SliderBar_value(self):
-        value=self.SliderBar_buffered_points.value()*100 #读取当前滑动条值
-        self.max_points.setText(str(value)) #做了个强转，不然报错：label框需要str类型值
+        value=self.SliderBar_buffered_points.value()*100 # get sliderbar value
+        self.max_points.setText(str(value))
         self.plotclear_param = value
 
 
@@ -129,9 +125,9 @@ class DialogWindow(QDialog, Ui_Dialog):
                     while self.stop_collect == 0 : 
                         
                         value = bytes(await client.read_gatt_char(8, use_cached=1))
-                        print(value.hex())
-                        print(type(value))
-                        print(value)
+                        #print(value.hex())
+                        #print(type(value))
+                        #print(value)
                         ## 11 Byte DMM
                         if len(value.hex()) == 22:
                             A = decoder_11.printdigit(decoder_11.decode(value.hex()))
@@ -203,9 +199,9 @@ class DialogWindow(QDialog, Ui_Dialog):
         # combobox for different speed
         self.comboBox_currentIndex = self.comboBox.currentIndex()
         if self.comboBox_currentIndex == 1:
-            self.plotspeed_param = 11
+            self.plotspeed_param = 5
         elif self.comboBox_currentIndex == 0:
-            self.plotspeed_param = 1
+            self.plotspeed_param = 0
         elif self.comboBox_currentIndex == 2:
             self.plotspeed_param = 23
 
