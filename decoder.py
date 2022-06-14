@@ -22,7 +22,7 @@ def pre_process(value):
         tohex = hex(hex_data[x] ^ xorkey[x]) #Bytewyse XOR operation
  
         tobinary = hex_to_binary(tohex) #convert to binary
-        print(tobinary)
+        #print(tobinary)
         flipped = LSB_TO_MSB(tobinary) #reverse binary
 
         binary_array.append(flipped)
@@ -179,7 +179,7 @@ class decoder_11 ():
                   "F", "u", "?5", "n", "Hz", "Ω", "K", "M",
                   "V", "m", "DC", "A", "Auto", "?7", "u", "m",
                   "?8", "?9", "?10", "?11"]
-            function = {60,63,64,65,67,80}
+            function = {60,63,64,65,80}
             #for i in range(60,60+len(bits_2),1):
             # reverse to better unit display
             for i in range(59+len(bits_2),59,-1):
@@ -333,45 +333,30 @@ class decoder_10 ():
             char_unit = []
             bits_1 = ["HOLD", "Flash", "BUZ"]
             for i in range(25,28,1):
-                  if i == 26:
-                        if prepared[i]=='0':
-                              # print(bits_1[i-25])
-                              char_function.append(bits_1[i-25])
-                  else:
-                        if prepared[i]=='1':
-                              # print(bits_1[i-25])
-                              char_function.append(bits_1[i-25])
+                  if prepared[i]=='1':
+                        # print(bits_1[i-25])
+                        char_function.append(bits_1[i-25])
             bits_2 = ["", "", "", "", "nano", "V", "DC", "AC",
                   "F", "->", "A", "µ(F)", "Ω", "kilo", "milli", "M(Ω)",
                   "", "Hz", "°F", "°C"]
             function = {64,69}
             for i in range(60,60+len(bits_2),1):
                   if i in function:
-                        if i == 79 or i == 62:
-                              if prepared[i]=='0':
-                                    
-                                    # print(bits[i-60])
-                                    char_function.append(bits_2[i-60])
-                        else:
-                              if prepared[i]=='1':
-                                    # print(bits[i-60])
-                                    char_function.append(bits_2[i-60])
+                        if prepared[i]=='1':
+                              # print(bits[i-60])
+                              char_function.append(bits_2[i-60])
+
                   else:
-                        if i == 79 or i == 62:
-                              if prepared[i]=='0':
-                                    # print(bits[i-60])
-                                    char_unit.append(bits_2[i-60])
-                        else:
-                              if prepared[i]=='1':
-                                    # print(bits[i-60])
-                                    char_unit.append(bits_2[i-60])
+                        if prepared[i]=='1':
+                              # print(bits[i-60])
+                              char_unit.append(bits_2[i-60])
             char = [char_function,char_unit]
             return char
 
 
 #debug
 '''
-value = str("1b8470b1496a9f3c66aa")
+value = str("1b84715d52aa33f144aa")
 A = decoder_10.printdigit(decoder_10.decode(value))
 B = decoder_10.printchar(decoder_10.decode(value))
 '''
@@ -380,9 +365,11 @@ B = decoder_10.printchar(decoder_10.decode(value))
 value = "1b8470b1496a9f3c66aa3b"
 A = decoder_11.printdigit(decoder_11.decode(value))
 B = decoder_11.printchar(decoder_11.decode(value))
-
+'''
+'''
 B_function = ' '.join(B[0])
 B_unit = ' '.join(B[1])
 print(A)
-print(B_function+B_unit)
+print("function: "+B_function+"\n"
+      +"unit: "+B_unit)
 '''
