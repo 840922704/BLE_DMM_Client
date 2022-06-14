@@ -28,12 +28,24 @@ v2.0 in win11: <br>
 Python 3.8 <br>
 PyQt5 pyqt5-tools pyqtgraph bleak <br>
 # The way to compile for Windows:
+## Environment：
 First install the nuitka: <br>
 `pip install nuitka` <br>
+## Compile
 Then pack with nuitka: <br>
 `nuitka --standalone --windows-disable-console --show-progress --enable-plugin=pyqt5  --enable-plugin=numpy --windows-icon-from-ico=The_Path_of_Logo.ico main.py` <br>
+Then pack with nuitka whit console to debug: <br>
+`nuitka --standalone --show-progress --enable-plugin=pyqt5  --enable-plugin=numpy --windows-icon-from-ico=The_Path_of_Logo.ico main.py` <br>
 After compiled, copy Logo.png to app's root file. <br>
-Then, for Windows, you can run directly or pack it with NSIS or other pack programs. <br>
+Then, for Windows, you can run directly or pack it with NSIS or other pack programs such as advanced installer. <br>
+## Compile error
+Compiled file may get the error below:
+```
+File "C:\MAIN~1.DIS\pyqtgraph\graphicsItems\ButtonItem.py", line 19, in __init__
+ZeroDivisionError: float division by zero
+```
+Ther just fix this bug in [2022.04](https://github.com/pyqtgraph/pyqtgraph/blob/a237b6e6a606b6625069a39cda9aa072e07e1882/pyqtgraph/graphicsItems/ButtonItem.py), the pip version is old, so just fix it manually, change line 18 of ButtonItem.py in your env:
+`if width is not None:` to `if width is not None and self.pixmap.width():` <br>
 Cross-platform ability in theory, but not tested yet. <br>
 ## License
 GPL v3.0
