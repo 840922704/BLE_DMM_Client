@@ -2,4 +2,3 @@ PyQt5
 pyqt5-tools
 pyqtgraph
 bleak
-Nuitka
