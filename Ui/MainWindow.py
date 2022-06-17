@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '..\MainWindow.ui'
+# Form implementation generated from reading ui file 'c:\Users\xy790\Desktop\Sub_Research\IoT_Sensor\BLE\V0.3\MainWindow.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(558, 384)
+        MainWindow.resize(558, 408)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
@@ -57,6 +57,10 @@ class Ui_MainWindow(object):
         self.menubar.setObjectName("menubar")
         self.menuAbout = QtWidgets.QMenu(self.menubar)
         self.menuAbout.setObjectName("menuAbout")
+        self.menuTheme = QtWidgets.QMenu(self.menubar)
+        self.menuTheme.setObjectName("menuTheme")
+        self.menuLanguage = QtWidgets.QMenu(self.menubar)
+        self.menuLanguage.setObjectName("menuLanguage")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -67,7 +71,24 @@ class Ui_MainWindow(object):
         self.actionSave.setObjectName("actionSave")
         self.actionAbout = QtWidgets.QAction(MainWindow)
         self.actionAbout.setObjectName("actionAbout")
+        self.actionNative = QtWidgets.QAction(MainWindow)
+        self.actionNative.setObjectName("actionNative")
+        self.actionLight = QtWidgets.QAction(MainWindow)
+        self.actionLight.setObjectName("actionLight")
+        self.actionDark = QtWidgets.QAction(MainWindow)
+        self.actionDark.setObjectName("actionDark")
+        self.actionEnglish = QtWidgets.QAction(MainWindow)
+        self.actionEnglish.setObjectName("actionEnglish")
+        self.actionChinese = QtWidgets.QAction(MainWindow)
+        self.actionChinese.setObjectName("actionChinese")
         self.menuAbout.addAction(self.actionAbout)
+        self.menuTheme.addAction(self.actionNative)
+        self.menuTheme.addAction(self.actionDark)
+        self.menuTheme.addAction(self.actionLight)
+        self.menuLanguage.addAction(self.actionEnglish)
+        self.menuLanguage.addAction(self.actionChinese)
+        self.menubar.addAction(self.menuTheme.menuAction())
+        self.menubar.addAction(self.menuLanguage.menuAction())
         self.menubar.addAction(self.menuAbout.menuAction())
 
         self.retranslateUi(MainWindow)
@@ -75,10 +96,17 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "BLE DMM Client"))
         self.pushButton_search.setText(_translate("MainWindow", "Search"))
         self.pushButton.setText(_translate("MainWindow", "Connect to selected device"))
         self.menuAbout.setTitle(_translate("MainWindow", "About"))
+        self.menuTheme.setTitle(_translate("MainWindow", "Theme"))
+        self.menuLanguage.setTitle(_translate("MainWindow", "Language"))
         self.actionOpen.setText(_translate("MainWindow", "Open"))
         self.actionSave.setText(_translate("MainWindow", "Save"))
         self.actionAbout.setText(_translate("MainWindow", "About"))
+        self.actionNative.setText(_translate("MainWindow", "Native"))
+        self.actionLight.setText(_translate("MainWindow", "Light"))
+        self.actionDark.setText(_translate("MainWindow", "Dark"))
+        self.actionEnglish.setText(_translate("MainWindow", "English"))
+        self.actionChinese.setText(_translate("MainWindow", "Chinese"))

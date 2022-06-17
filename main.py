@@ -1,26 +1,27 @@
 import os
 import sys
+from datetime import datetime
+import locale
+import logging
+import time
+
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QMessageBox, QDialog
-from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtCore import pyqtSignal, QTranslator
 from PyQt5.QtGui import QFont, QIcon
 import pyqtgraph as pg
+from qt_material import QtStyleTools
 
 from Ui.MainWindow import Ui_MainWindow
 from Ui.Dialog import Ui_Dialog
 from decoder import decoder_11, decoder_10
 
-import logging
 import asyncio
 from bleak import BleakClient
-import time
 import threading
 from bleak import BleakScanner
 
-from datetime import datetime
-
-
-ADDRESS = ""
+#ADDRESS = ""
 
 class DialogWindow(QDialog, Ui_Dialog):
     newdata = pyqtSignal(object) # 创建信号
@@ -28,25 +29,28 @@ class DialogWindow(QDialog, Ui_Dialog):
     def __init__(self, parent=None):
         super(DialogWindow, self).__init__(parent)
         self.setupUi(self)
-        self.setWindowTitle('BLE DMM Monitor')
+        #self.setWindowTitle('BLE DMM Monitor')
+        self.retranslateUi(self)
+        # QTranslator
+        self.trans = QTranslator()
+        pass
+
         #BLE Devices
         self.logger = logging.getLogger(__name__)
         self.t = []
         self.digi = []
         self.char = []
-
         self.label_LCD.setText("0.000")
 
         self.pushButton_start.clicked.connect(self.startThread)
         self.pushButton_stop.clicked.connect(self.stopThread)
         self.pushButton_datapath.clicked.connect(self.data_path)
 
-
-
+        # Set SliderBar_buffered_points
         self.SliderBar_buffered_points.setMinimum(1)
-        self.SliderBar_buffered_points.setMaximum(200)
+        self.SliderBar_buffered_points.setMaximum(300)
         self.SliderBar_buffered_points.setValue(100)
-
+        self.Label_max_points.setText(str(self.SliderBar_buffered_points.value()*100).zfill(5))
         self.SliderBar_buffered_points.valueChanged.connect(self.SliderBar_value)
 
         self.Filepath = os.path.abspath('.')+"\\"+"Saved_Data"
@@ -55,18 +59,14 @@ class DialogWindow(QDialog, Ui_Dialog):
         self.pushButton_datapath.setToolTip(self.Filepath)
 
         # Add pyqtgraph to qtwidget
-        # Avoid error caused by packed by nuitka
-
-        self.plot_plt = pg.PlotWidget()
-        #self.plot_plt.showGrid(x=True,y=True)
+        # Set x aixs to datestamp
+        self.datestamp = []
+        
+        self.plot_plt = pg.PlotWidget(axisItems={'bottom': pg.DateAxisItem()})
+        self.plot_plt.setMinimumHeight(200)
+        self.plot_plt.showGrid(x=True,y=True)
         self.graph_layout.addWidget(self.plot_plt)
         
-
-
-#    def update_progressbar(self, p_int):
-#        self.progressBar.setValue(p_int)
-
-
         # plot speed
 
         #self.comboBox.currentIndexChanged.connect(self.selectionchange)
@@ -76,10 +76,10 @@ class DialogWindow(QDialog, Ui_Dialog):
         self.a = 0
         self.plotspeed_param = 11
 
-        #plot clear
+        #plot clear (buffer points)
         self.b = 0
         self.plotclear_param = 10000
-
+        self.Label_Current_points.setText(str(self.b).zfill(5))
         self.newdata.connect(self.plot)
 
         self.data_list = []
@@ -87,13 +87,11 @@ class DialogWindow(QDialog, Ui_Dialog):
         # stopThread
         self.stop_collect = 0
 
-
     def SliderBar_value(self):
         value=self.SliderBar_buffered_points.value()*100 # get sliderbar value
-        self.max_points.setText(str(value))
+        self.Label_max_points.setText(str(value).zfill(5))
+        
         self.plotclear_param = value
-
-
 
     def stopThread(self):
         self.stop_collect = 1
@@ -120,9 +118,9 @@ class DialogWindow(QDialog, Ui_Dialog):
 
         thread.start() # 启动线程
     # mian loop to get data
-    async def data(self, ADDRESS):
+    async def data(self,ADDRESS_dialog):
         try:
-            async with BleakClient(ADDRESS) as client:
+            async with BleakClient(ADDRESS_dialog) as client:
                 self.logger.info(f"Connected: {client.is_connected}")
                 try:
                     print('Start get data')
@@ -147,10 +145,10 @@ class DialogWindow(QDialog, Ui_Dialog):
 
                         #self.t.append(time.time())
                         now = datetime.now()
-                        self.t = now.strftime('%Y-%m-%d %H:%M:%S')
+                        self.t = now.strftime('%Y-%m-%d %H:%M:%S.%f')
+                        #self.t = now.strftime('%Y-%m-%d %H:%M:%S')
                         #self.t = time.asctime(time.localtime(time.time()))
                         
-
                         self.B_function = ' '.join(B[0])
                         self.B_unit = ' '.join(B[1])
                         print(A)
@@ -169,8 +167,10 @@ class DialogWindow(QDialog, Ui_Dialog):
 
                     self.label_LCD.setText("0.000")
 
-                    self.plot_plt.clear()
-                    self.data_list=[]
+                    #self.plot_plt.clear()
+                    self.data_list =[]
+                    self.datestamp = []
+                    self.b = 0
                     try:
                         f.close()
                     except:
@@ -182,16 +182,17 @@ class DialogWindow(QDialog, Ui_Dialog):
                     self.pushButton_start.setEnabled(True)
         except:
             self.pushButton.start.setEnabled(True)
-            print('Failed to asyn '+ADDRESS)
+            print('Failed to asyn '+ADDRESS_dialog)
     
 
     def getdata(self):
         try:
-            print(ADDRESS)
-            asyncio.run(self.data(sys.argv[1] if len(sys.argv) == 2 else ADDRESS))
+            print(self.ADDRESS_dialog)
+            asyncio.run(self.data(sys.argv[1] if len(sys.argv) == 2 else self.ADDRESS_dialog))
         except:
-            print(ADDRESS)
+            print(self.ADDRESS_dialog)
             print("No device found")
+            self.pushButton_start.setEnabled(True)
 
     #Data save directory
     def data_path(self):
@@ -201,6 +202,7 @@ class DialogWindow(QDialog, Ui_Dialog):
 
     # real time plot
     def plot(self,signal):
+        #self.plot_plt.clear()
         # combobox for different speed
         self.comboBox_currentIndex = self.comboBox.currentIndex()
         if self.comboBox_currentIndex == 1:
@@ -211,7 +213,6 @@ class DialogWindow(QDialog, Ui_Dialog):
             self.plotspeed_param = 23
 
         # real time lcd and label
-
         self.label_LCD.setText(str(signal[1][0]))
 
         self.label_unit.setText(signal[1][1])
@@ -223,15 +224,28 @@ class DialogWindow(QDialog, Ui_Dialog):
             except:
                 plot_data = float(0)
             self.data_list.append(plot_data)
-            self.plot_plt.plot().setData(self.data_list,pen='w')
+            self.datestamp.append(datetime(
+            int(str(signal[0])[0:4]),
+            int(str(signal[0])[5:7]),
+            int(str(signal[0])[8:10]),
+            int(str(signal[0])[11:13]),
+            int(str(signal[0])[14:16]),
+            int(str(signal[0])[17:19]),
+            int(str(signal[0])[20:26])))
+            # Prevent data accumulat
+            self.plot_plt.clear()
+            #self.plot_plt.plot().setData(self.data_list,pen='w')
+            self.plot_plt.plot(x=[x.timestamp() for x in self.datestamp],y=self.data_list,pen='w')
             self.a = 0
             self.b = self.b + 1
         self.a = self.a + 1
         # Clear the pyqtgraph screen regularly
+        self.Label_Current_points.setText(str(self.b).zfill(5))
         if self.b > self.plotclear_param:
             self.plot_plt.clear()
             self.data_list=[]
             self.b = 0
+            self.datestamp = []
         # write to file, with speed control and checkbox control
         if self.a > self.plotspeed_param:
             now = datetime.now()
@@ -240,31 +254,100 @@ class DialogWindow(QDialog, Ui_Dialog):
                     if not os.path.exists(self.Filepath):
                         os.makedirs(self.Filepath)
                     f = open(self.Filepath +'\\' + now.strftime('%Y-%m-%d')+'.txt',mode = 'a', encoding='utf-8')
-                    f.write(str(signal[0])+"   "+signal[1][0]+" "+signal[1][1]+" "+signal[2]+"\n")
+                    f.write(str(signal[0])[:-5]+"   "+signal[1][0]+" "+signal[1][1]+" "+signal[2]+"\n")
                 elif self.checkBox.isChecked() == False:
                     f.close()
             else:
                 if self.checkBox.isChecked() == True:
-                    f.write(str(signal[0])+"   "+signal[1][0]+" "+signal[1][1]+" "+signal[2]+"\n")
+                    f.write(str(signal[0])[:-5]+"   "+signal[1][0]+" "+signal[1][1]+" "+signal[2]+"\n")
                 #elif self.checkBox.isChecked() == False:
                     #f.close()
 
 
 
-
-
-class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
+class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow, QtStyleTools):
     search_complete = pyqtSignal(object) # create signal
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
-        self.setWindowTitle('BLE DMM Client')
+        #self.setWindowTitle('BLE DMM Client')
+
+
+        ## Themes
+        def Theme_Dark(self):
+            extra = {
+                # Font
+                'font_family': 'Microsoft YaHei',
+                'font_size': '12px',
+            }
+            self.apply_stylesheet(self, theme='dark_lightgreen.xml', invert_secondary=False, extra=extra)
+
+        def Theme_Light(self):
+            extra = {
+                # Font
+                'font_family': 'Microsoft YaHei',
+                'font_size': '12px',
+            }
+            self.apply_stylesheet(self, theme='light_cyan_500.xml', invert_secondary=True, extra=extra)
+        def Theme_Native(self):
+            self.apply_stylesheet(self, theme='default', invert_secondary=True)
+        #The default theme is dark
+        Theme_Dark(self)
+        self.actionNative.triggered.connect(lambda:Theme_Native(self))
+        self.actionDark.triggered.connect(lambda:Theme_Dark(self))
+        self.actionLight.triggered.connect(lambda:Theme_Light(self))
+
+
+        #  QTranslator
+        self.trans = QTranslator()
+
+        # Connect to the slot function
+        self.actionEnglish.triggered.connect(lambda:_trigger_english(self))
+        self.actionChinese.triggered.connect(lambda:_trigger_zh_cn(self))
+        self.dialog = DialogWindow(self)
+
+        def _trigger_english(self):
+            print("[MainWindow] Change to English")
+            self.trans.load("")
+            _app = QtWidgets.QApplication.instance()  # Get app instance
+
+            self.trans.load("./Ui/MainWindow_en.qm")
+            _app.installTranslator(self.trans) # Re-translate the main interface
+            self.retranslateUi(self)
+
+            self.trans.load("./Ui/Dialog_en.qm")
+            _app.installTranslator(self.dialog.trans) # Install translations for submodules
+            self.dialog.retranslateUi(self.dialog) # translation submodule
+
+            pass
+
+        def _trigger_zh_cn(self):
+            print("[MainWindow] Change to zh_CN")
+            
+            _app = QtWidgets.QApplication.instance()
+
+            self.trans.load("./Ui/MainWindow_zh_CN.qm")
+            _app.installTranslator(self.trans)
+            self.retranslateUi(self)
+
+            self.trans.load("./Ui/Dialog_zh_CN.qm")
+            _app.installTranslator(self.dialog.trans)
+            self.dialog.retranslateUi(self.dialog)
+        
+        # Auto detect language
+        def system_language_detect(self):
+            if locale.getdefaultlocale()[0]=="zh_CN":
+                _trigger_zh_cn(self)
+            else:
+                _trigger_english(self)
+        system_language_detect(self)
+
         #self.setWindowIcon(QIcon('Logo.png'))
         self.count = 0
 
-###BLE Devices Below
-        self.logger = logging.getLogger(__name__)
 
+        # BLE Devices Below
+        self.logger = logging.getLogger(__name__)
 
         self.devices = []
         self.pushButton_search.clicked.connect(self.startThread_devices)
@@ -275,28 +358,25 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         self.pushButton.clicked.connect(self.open_dialog)
 
-        self.actionAbout.triggered.connect(self.open_about)
+        self.ADDRESS = ""
 
+
+    # About page
+        self.actionAbout.triggered.connect(self.open_about)
     def open_about(self):
         QMessageBox.about(self,'About',
-        "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">BLE_DMM_Client v2.0</span></p>\n"
+        "<p style=\" margin-top:6px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">BLE_DMM_Client v3.0</span></p>\n"
         "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n"
-        "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">Release page: </span></p>\n"
-        "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><a href=\"https://github.com/840922704/BLE_DMM_Client\"><span style=\" font-size:8pt; text-decoration: underline; color:#0000ff;\">https://github.com/840922704/BLE_DMM_Client</span></a></p>\n")
-###BLE Devices Above
-
-
+        "<p style=\" margin-top:0px; margin-bottom:6px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt;\">Release page: </span></p>\n"
+        "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><a href=\"https://github.com/840922704/BLE_DMM_Client\"><span style=\" font-size:12pt; text-decoration: underline; color:#99cc33;\">https://github.com/840922704/BLE_DMM_Client</span></a></p>\n")
+    
+    # Dialog Window
     def open_dialog(self):
-        dialog = DialogWindow(self)
-        dialog.show()
-        dialog.label.setText("Address: "+ADDRESS)
-
-#        self.thread = RunThread(self.count)
-#        self.count += 1
-#        self.thread.update_pb.connect(dialog.update_progressbar)
-#        self.thread.update_pb.connect(dialog.startThread)
-
-#        self.thread.start()
+        
+        # Send ADDRESS to DialogWindow
+        DialogWindow.ADDRESS_dialog = self.ADDRESS
+        self.dialog.show()
+        self.dialog.label.setText("Address: "+self.ADDRESS)
 
 ## BLE Devices Below
 
@@ -314,7 +394,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     async def search_devices(self):
         signal = 0
         self.search_complete.emit(signal)
-
         self.devices = []
         devices = await BleakScanner.discover()
         self.listWidget.clear()
@@ -335,15 +414,14 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         #    self.progressBar.setValue(a)
         #    time.sleep(0.05)
     def change_address(self, item):
-        global ADDRESS
-        ADDRESS = item.text().split(": ")[0]
-        print(ADDRESS)
+        self.ADDRESS = item.text().split(": ")[0]
+        print(self.ADDRESS)
 
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     app.setWindowIcon(QIcon('Logo.png'))
-    f = QFont("Arial",12)
+    f = QFont("Microsoft YaHei",12)
     app.setFont(f)
     mainWindow = MainWindow()
     mainWindow.show()
