@@ -19,7 +19,7 @@ Just tested in Windows and exe release version of Windows.
 ## UI
 v2.0 in win11: <br>
 <br>
-<img width="654" alt="image" src="https://user-images.githubusercontent.com/45794975/173481159-380d655d-07fd-4462-bd93-7f8b7353c908.png">
+<img width="654" alt="image" src="https://github.com/840922704/BLE_DMM_Client/blob/6b8bd3faa6351fe2b8a9bddaab4d352b38588ce1/UI.png">
 ## Things To Do
 - [x] Data Export <br>
 - [x] Real time plot <br>
