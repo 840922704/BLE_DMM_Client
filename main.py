@@ -14,7 +14,7 @@ from qt_material import QtStyleTools
 
 from Ui.MainWindow import Ui_MainWindow
 from Ui.Dialog import Ui_Dialog
-from decoder import decoder_11, decoder_10
+from decoder import type_detecter, decoder_1, decoder_2, decoder_3, decoder_4
 
 import asyncio
 from bleak import BleakClient
@@ -125,23 +125,24 @@ class DialogWindow(QDialog, Ui_Dialog):
                 try:
                     print('Start get data')
                     self.stop_collect = 0
+                    type = type_detecter.type(bytes(await client.read_gatt_char(8, use_cached=1)).hex())
                     while self.stop_collect == 0 : 
                         
-                        value = bytes(await client.read_gatt_char(8, use_cached=1))
-                        #print(value.hex())
+                        value = bytes(await client.read_gatt_char(8, use_cached=1)).hex()
                         #print(type(value))
                         #print(value)
-                        ## 11 Byte DMM
-                        if len(value.hex()) == 22:
-                            A = decoder_11.printdigit(decoder_11.decode(value.hex()))
-                            # list to str
-                            #B = ' '.join(decoder_11.printchar(decoder_11.decode(value.hex())))
-                            B = decoder_11.printchar(decoder_11.decode(value.hex()))
-                        ## 10 Byte DMM
-                        elif len(value.hex()) == 20:
-                            A = decoder_10.printdigit(decoder_10.decode(value.hex()))
-                            # list to str
-                            B = decoder_10.printchar(decoder_10.decode(value.hex()))
+                        if type == '1':
+                            A = decoder_1.printdigit(decoder_1.decode(value))
+                            B = decoder_1.printchar(decoder_1.decode(value))
+                        elif type == '2':
+                            A = decoder_2.printdigit(decoder_2.decode(value))
+                            B = decoder_2.printchar(decoder_2.decode(value))
+                        elif type == '3':
+                            A = decoder_3.printdigit(decoder_3.decode(value))
+                            B = decoder_3.printchar(decoder_3.decode(value))
+                        elif type == '4':
+                            A = decoder_4.printdigit(decoder_4.decode(value))
+                            B = decoder_4.printchar(decoder_4.decode(value))
 
                         #self.t.append(time.time())
                         now = datetime.now()
