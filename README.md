@@ -57,7 +57,7 @@ Compiled file may get the error below:
 File "C:\MAIN~1.DIS\pyqtgraph\graphicsItems\ButtonItem.py", line 19, in __init__
 ZeroDivisionError: float division by zero
 ```
-Ther just fix this bug in [2022.04](https://github.com/pyqtgraph/pyqtgraph/blob/a237b6e6a606b6625069a39cda9aa072e07e1882/pyqtgraph/graphicsItems/ButtonItem.py), the pip version is old, so just fix it manually, change line 18 of ButtonItem.py in your env:
+They just fix this bug in [2022.04](https://github.com/pyqtgraph/pyqtgraph/blob/a237b6e6a606b6625069a39cda9aa072e07e1882/pyqtgraph/graphicsItems/ButtonItem.py), the pip version is old, so just fix it manually, change line 18 of ButtonItem.py in your env:
 `if width is not None:` to `if width is not None and self.pixmap.width():` <br>
 Cross-platform ability in theory, but not tested yet. <br>
 
