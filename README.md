@@ -20,10 +20,11 @@ This is the cheapest with capability to connect with Mobile Phone or Computer. T
 ## Supported OS
 | Operate System| Code Version         | Released Version | Test          |
 | :------------ | :------------------- | :--------------- | :------------ |
-| Windows       | x86/x64 10 and above | x64 10 and above | Yes           |
+| Windows       | x86/x64 10 and above*| x64 10 and above*| Yes           |
 | Linux         | x86/x64              | No               | Not completely|
 | Mac OS        | x86/x64              | No               | Not completely|
 
+\* *Because the BLE module bleak just support win10 and above in windows platform.* <br>
 Windows(10 and above), Linux and MAC OS (platform supported by python). <br>
 Just tested in Windows and exe release version of Windows.
 ## Achived functions
