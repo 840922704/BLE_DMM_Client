@@ -5,6 +5,15 @@ Aneng 9002, BSIDE ZT-300AB, ZOYI ZT-300AB (Multimeter with 11 Byte Data) <br>
 Aneng V05B	BSIDE ZT-5B	ZOYI ZT-5B (Small-Multimeter with 10 Byte Data) <br>
 Not  tested: Aneng ST207	BSIDE ZT-5BQ	ZOYI ZT-5BQ	(Clamp-Multimeter with 10 Byte Data) <br>
 
+
+| Type:                    | Models       |                |               | Test          |
+| :----------------------- | :----------- | :------------- | :------------ | :------------ |
+| 1. Multimeter (1):       | Aneng 9002   | BSIDE ZT-300AB | ZOYI ZT-300AB | Yes           |
+| 2. Small-Multimeter (2): | Aneng V05B   | BSIDE ZT-5B    | ZOYI ZT-5B    | Not completely|
+| 3. Clamp-Multimeter (3): | Aneng ST207  | BSIDE ZT-5BQ   | ZOYI ZT-5BQ   | Not completely|
+| 4. Clamp-Multimeter (4): | Aneng AN999S |                | ZOYI ZT-5566S | Not completely|
+
+
 Just tested with ZOYI ZT-300AB. This solution is very cheap, I just bought a new one by ~ 100 RMB (~ 10 + USD). <br>
 <br>
 This is the cheapest with capability to connect with Mobile Phone or Computer. They officially provide Mobile Phone version. So I just open this project for fun. <br>
