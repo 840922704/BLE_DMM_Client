@@ -1,5 +1,9 @@
 # BLE_DMM_Client
 Bluetooth Multimeter Client
+## UI
+v3.0 in win11: <br>
+<br>
+<img width="654" alt="image" src="https://github.com/840922704/BLE_DMM_Client/blob/6b8bd3faa6351fe2b8a9bddaab4d352b38588ce1/UI.png">
 ## Support DMM Models
 Aneng 9002, BSIDE ZT-300AB, ZOYI ZT-300AB (Multimeter with 11 Byte Data) <br>
 Aneng V05B	BSIDE ZT-5B	ZOYI ZT-5B (Small-Multimeter with 10 Byte Data) <br>
@@ -34,10 +38,6 @@ Just tested in Windows and exe release version of Windows.
 - Real time plot <br>
 - Multilanguage <br>
 - Multithemes <br>
-## UI
-v3.0 in win11: <br>
-<br>
-<img width="654" alt="image" src="https://github.com/840922704/BLE_DMM_Client/blob/6b8bd3faa6351fe2b8a9bddaab4d352b38588ce1/UI.png">
 ## Things To Do
 - [x] ~~Data Export~~ <br>
 - [x] ~~Real time plot~~ <br>
