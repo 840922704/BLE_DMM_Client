@@ -9,7 +9,7 @@ v3.0 in win11: <br>
 | Type:                    | Models       |                |               | Test          |
 | :----------------------- | :----------- | :------------- | :------------ | :------------ |
 | 1. Multimeter (1):       | Aneng 9002   | BSIDE ZT-300AB | ZOYI ZT-300AB | Yes           |
-| 2. Small-Multimeter (2): | Aneng V05B   | BSIDE ZT-5B    | ZOYI ZT-5B    | Not completely|
+| 2. Small-Multimeter (2): | Aneng V05B   | BSIDE ZT-5B    | ZOYI ZT-5B    | Yes           |
 | 3. Clamp-Multimeter (3): | Aneng ST207  | BSIDE ZT-5BQ   | ZOYI ZT-5BQ   | Yes           |
 | 4. Desk-Multimeter (4):  | Aneng AN999S |                | ZOYI ZT-5566S | Not completely|
 
