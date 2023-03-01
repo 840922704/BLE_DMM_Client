@@ -21,7 +21,7 @@ This is the cheapest with capability to connect with Mobile Phone or Computer. T
 | Operate System| Code Version         | Released Version | Test          |
 | :------------ | :------------------- | :--------------- | :------------ |
 | Windows       | x86/x64 10 and above*| x64 10 and above*| Yes           |
-| Linux         | x86/x64              | No               | Not completely|
+| Linux         | x86/x64              | No               | need BlueZ >= 5.43|
 | Mac OS        | x86/x64              | No               | Not completely|
 
 \* *Because the BLE module bleak just support win10 and above in windows platform.* <br>
