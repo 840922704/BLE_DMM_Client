@@ -42,6 +42,7 @@ Just tested in Windows and exe release version of Windows.
 Python 3.8 <br>
 PyQt5 pyqt5-tools pyqtgraph bleak <br>
 If using Linux, need BlueZ >= 5.43 (additionally required by bleak) <br>
+Whether using conda (or other virtual env management) or not, it's recommended to use 'pip install' to install all packages listed in requirements.txt. <br>
 # The way to compile for Windows:
 ## Environment：
 First install the nuitka: <br>
