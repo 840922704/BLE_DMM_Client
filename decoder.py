@@ -39,11 +39,11 @@ class type_detecter():
       type_dict = {
             # 1. Multimeter (1):	Aneng 9002	BSIDE ZT-300AB	ZOYI ZT-300AB	BABATools AD900
             '11000000':'1',
-            # 2. Small-Multimeter (2):	Aneng V05B	BSIDE ZT-5B ZOYI ZT-5B	
+            # 2. Small-Multimeter (2):	Aneng V05B	BSIDE ZT-5B	ZOYI ZT-5B	
             '01000000':'2',
             # 3. Clamp-Multimeter (3):	Aneng ST207	BSIDE ZT-5BQ	ZOYI ZT-5BQ
             '10000000':'3',
-            # 4. Desk-Multimeter (4):	Aneng AN999S		ZOYI ZT-5566S
+            # 4. Clamp-Multimeter (4): image	Aneng AN999S		ZOYI ZT-5566S
             '00100000':'4',
       }
       def decode (self, origin_value):
@@ -53,6 +53,7 @@ class type_detecter():
       @classmethod
       def type (self, origin_value):
             type_code = ''
+ 
             for i in range (16,24,1):
                   type_code = type_code + self.decode(self, origin_value)[i]
             try:
@@ -490,6 +491,7 @@ class decoder_4():
                         char_unit.append((bits_2[bits_2_num.index(i)]))
             char = [char_function,char_unit]
             return char
+
 
 #debug
 

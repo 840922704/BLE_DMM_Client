@@ -1,7 +1,7 @@
 # BLE_DMM_Client
 Bluetooth Multimeter Client
 ## UI
-v3.2 in win11: <br>
+v3.0 in win11: <br>
 <br>
 <img width="654" alt="image" src="https://github.com/840922704/BLE_DMM_Client/blob/6b8bd3faa6351fe2b8a9bddaab4d352b38588ce1/UI.png">
 ## Support DMM Models
@@ -52,16 +52,12 @@ First install the nuitka: <br>
 nuitka will occur crash with pyqtgraph (see issue #1532 in nuitka, Github). So delete the export function in pyqtgraph.<br>
 All the resource files are included in ./Ui/resources.qrc. Then enter Ui fold and run if rousources been modified:<br>
 `pyside6-rcc resources.qrc -o resources_rc.py`<br>
-The nuitka commands are shown below:
-```shell
-# Nuitka Single File
-python -m nuitka --standalone --windows-disable-console --enable-plugin=pyside6 --show-progress --windows-icon-from-ico=".\Ui\Logo.ico" --include-package-data=qt_material --output-dir="./Releases/Single" --onefile main.py
-# Nuitka Single File Debug
-python -m nuitka --standalone --enable-plugin=pyside6 --show-progress --windows-icon-from-ico=".\Ui\Logo.ico" --include-package-data=qt_material --output-dir="./Releases/Single_Debug" --onefile main.py
-# Nuitka Normal
-python -m nuitka --standalone --windows-disable-console  --enable-plugin=pyside6 --show-progress --windows-icon-from-ico=".\Ui\Logo.ico" --include-package-data=qt_material --output-dir="./Releases/Normal" main.py
-```
-
+Then pack with pyinstaller (Single File): <br>
+`python -m nuitka --standalone --windows-disable-console --enable-plugin=pyside6 --show-progress --windows-icon-from-ico=".\Ui\Logo.ico" --include-package-data=qt_material --onefile main.py` <br>
+Pack with pyinstaller (Fold): <br>
+`python -m nuitka --standalone --windows-disable-console --enable-plugin=pyside6 --show-progress --windows-icon-from-ico=".\Ui\Logo.ico" --include-package-data=qt_material main.py"` <br>
+Then pack with nuitka whit console to debug (Single File): <br>
+`python -m nuitka --standalone --enable-plugin=pyside6 --show-progress --windows-icon-from-ico=".\Ui\Logo.ico" --include-package-data=qt_material --onefile main.py` <br>
 Then, for Windows, you can run directly or pack it with NSIS or other pack programs such as advanced installer. <br>
 
 ## Known issues
@@ -77,7 +73,7 @@ Cross-platform ability in theory, but not tested yet. <br>
 
 ### [2]qt_material
 qt_material's dark theme have some issues with pyside6. Current version (2.14) not fixed yet, so manually add part of stylesheet in main.py.
-```python
+```
 self.apply_stylesheet(self, theme='dark_lightgreen.xml', extra=extra)
 tooltip_stylesheet = """
     QToolTip {

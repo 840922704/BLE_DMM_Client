@@ -1,0 +1,11 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+    <qresource>
+        <file>splash.png</file>
+        <file>Logo.ico</file>
+        <file>Dialog_en.qm</file>
+        <file>Dialog_zh_CN.qm</file>
+        <file>MainWindow_en.qm</file>
+        <file>MainWindow_zh_CN.qm</file>
+    </qresource>
+</RCC>

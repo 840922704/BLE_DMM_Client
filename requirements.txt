@@ -1,6 +1,7 @@
-PyQt5
-pyqt5-tools
+# python3.8
+# pip install
+pyside6
 pyqtgraph
-bleak
 qt-material
+bleak
 nuitka
