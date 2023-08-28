@@ -1,6 +1,6 @@
-# BLE_DMM_Client
+# BLE_DMM_Client 蓝牙万用表客户端
 Bluetooth Multimeter Client <br>
-蓝牙万用表客户端
+适配市场主流蓝牙通讯的万用表<br>
 ## UI
 v3.2 in win11: <br>
 <br>
@@ -37,11 +37,13 @@ Just tested in Windows and exe release version of Windows.
 - Multi-languages <br>
 - Multi-themes <br>
 ## Things To Do
-- [x] None <br>
+- None <br>
+- Maybe self-defined ble decoder support in the future.<br>
+
 ## Development
 # Requirements
 Python 3.8 <br>
-pyside6 pyqtgraph bleak <br>
+pyside6 pyqtgraph qt_material bleak <br>
 Also need Nuitka (or pyinstaller if you wanted) <br>
 If using Linux, need BlueZ >= 5.43 (additionally required by bleak) <br>
 Whether using conda (or other virtual env management) or not, it's recommended to use 'pip install' to install all packages listed in requirements.txt. <br>
