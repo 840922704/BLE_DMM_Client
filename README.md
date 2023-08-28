@@ -21,7 +21,7 @@ This is the cheapest with capability to connect with Mobile Phone or Computer. T
 | Operate System| Code Version         | Released Version | Test          |
 | :------------ | :------------------- | :--------------- | :------------ |
 | Windows       | x86/x64 10 and above*| x64 10 and above*| Yes           |
-| Linux         | x86/x64              | No               | need BlueZ >= 5.43|
+| Linux         | x86/x64              | No               | Not completely|
 | Mac OS        | x86/x64              | No               | Not completely|
 
 \* *Because the BLE module bleak just support win10 and above in windows platform.* <br>
@@ -40,31 +40,50 @@ Just tested in Windows and exe release version of Windows.
 ## Development
 # Requirements
 Python 3.8 <br>
-PyQt5 pyqt5-tools pyqtgraph bleak <br>
+pyside6 pyqtgraph bleak <br>
 If using Linux, need BlueZ >= 5.43 (additionally required by bleak) <br>
 Whether using conda (or other virtual env management) or not, it's recommended to use 'pip install' to install all packages listed in requirements.txt. <br>
 # The way to compile for Windows:
 ## Environment：
-First install the nuitka: <br>
-`pip install nuitka` <br>
+First install the pyinstaller: <br>
+`pip install pyinstaller` <br>
 ## Compile
-Then pack with nuitka: <br>
-`nuitka --standalone --windows-disable-console --show-progress --enable-plugin=pyqt5  --enable-plugin=numpy --windows-icon-from-ico=The_Path_of_Logo.ico main.py` <br>
+nuitka was used previously (faster and space saving), but will occur crash with pyqtgraph. So change the packer to pyInsyaller.
+All the resource files are included in ./Ui/resources.qrc. Then enter Ui fold and run if rousources been modified:
+`pyside6-rcc resources.qrc -o resources_rc.py`
+Then pack with pyinstaller (Single File): <br>
+`pyInstaller main.py -Fw --clean --upx-dir=Please_Modified_UPX_DIR --splash="./Ui/splash.png" --icon="./Ui/Logo.ico"` <br>
+Pack with pyinstaller (Fold): <br>
+`pyInstaller main.py -w --clean --upx-dir=Please_Modified_UPX_DIR --splash="./Ui/splash.png" --icon="./Ui/Logo.ico"` <br>
 Then pack with nuitka whit console to debug: <br>
-`nuitka --standalone --show-progress --enable-plugin=pyqt5  --enable-plugin=numpy --windows-icon-from-ico=The_Path_of_Logo.ico main.py` <br>
-After compiled, copy Logo.png、Logo.ico、Ui fold and qt_material fold to the app's root file. <br>
+`pyInstaller main.py --clean --upx-dir=Please_Modified_UPX_DIR --splash="./Ui/splash.png" --icon="./Ui/Logo.ico"` <br>
 Then, for Windows, you can run directly or pack it with NSIS or other pack programs such as advanced installer. <br>
 
-## Compile error
+## Known issues
 
-Compiled file may get the error below:
+### [1]Compiled file may get the error below:
 ```
 File "C:\MAIN~1.DIS\pyqtgraph\graphicsItems\ButtonItem.py", line 19, in __init__
 ZeroDivisionError: float division by zero
 ```
-They just fix this bug in [2022.04](https://github.com/pyqtgraph/pyqtgraph/blob/a237b6e6a606b6625069a39cda9aa072e07e1882/pyqtgraph/graphicsItems/ButtonItem.py), the pip version is old, so just fix it manually, change line 18 of ButtonItem.py in your env:
+They just fix this bug in [2022.04](https://github.com/pyqtgraph/pyqtgraph/blob/a237b6e6a606b6625069a39cda9aa072e07e1882/pyqtgraph/graphicsItems/ButtonItem.py), if you use old version, please fix it manually, change line 18 of ButtonItem.py in your env:
 `if width is not None:` to `if width is not None and self.pixmap.width():` <br>
 Cross-platform ability in theory, but not tested yet. <br>
+
+### [2]qt_material
+qt_material's dark theme have some issues with pyside6. Current version (2.14) not fixed yet, so manually add part of stylesheet in main.py.
+```
+self.apply_stylesheet(self, theme='dark_lightgreen.xml', extra=extra)
+tooltip_stylesheet = """
+    QToolTip {
+        background-color: black;
+    }
+    QComboBox {
+        color: white;
+    }
+"""
+self.setStyleSheet(self.styleSheet()+tooltip_stylesheet)
+```
 
 ## License
 GPL v3.0
