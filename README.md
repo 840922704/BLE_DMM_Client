@@ -46,18 +46,18 @@ If using Linux, need BlueZ >= 5.43 (additionally required by bleak) <br>
 Whether using conda (or other virtual env management) or not, it's recommended to use 'pip install' to install all packages listed in requirements.txt. <br>
 # The way to compile for Windows:
 ## Environment：
-First install the pyinstaller: <br>
-`pip install pyinstaller` <br>
+First install the nuitka: <br>
+`pip install nuitka` <br>
 ## Compile
-nuitka was used previously (faster and space saving), but will occur crash with pyqtgraph. So change the packer to pyInsyaller.
-All the resource files are included in ./Ui/resources.qrc. Then enter Ui fold and run if rousources been modified:
-`pyside6-rcc resources.qrc -o resources_rc.py`
+nuitka will occur crash with pyqtgraph (see issue #1532 in nuitka, Github). So delete the export function in pyqtgraph.<br>
+All the resource files are included in ./Ui/resources.qrc. Then enter Ui fold and run if rousources been modified:<br>
+`pyside6-rcc resources.qrc -o resources_rc.py`<br>
 Then pack with pyinstaller (Single File): <br>
-`pyInstaller main.py -Fw --clean --upx-dir=Please_Modified_UPX_DIR --splash="./Ui/splash.png" --icon="./Ui/Logo.ico"` <br>
+`python -m nuitka --standalone --windows-disable-console --enable-plugin=pyside6 --show-progress --windows-icon-from-ico=".\Ui\Logo.ico" --include-package-data=qt_material --onefile main.py` <br>
 Pack with pyinstaller (Fold): <br>
-`pyInstaller main.py -w --clean --upx-dir=Please_Modified_UPX_DIR --splash="./Ui/splash.png" --icon="./Ui/Logo.ico"` <br>
-Then pack with nuitka whit console to debug: <br>
-`pyInstaller main.py --clean --upx-dir=Please_Modified_UPX_DIR --splash="./Ui/splash.png" --icon="./Ui/Logo.ico"` <br>
+`python -m nuitka --standalone --windows-disable-console --enable-plugin=pyside6 --show-progress --windows-icon-from-ico=".\Ui\Logo.ico" --include-package-data=qt_material main.py"` <br>
+Then pack with nuitka whit console to debug (Single File): <br>
+`python -m nuitka --standalone --enable-plugin=pyside6 --show-progress --windows-icon-from-ico=".\Ui\Logo.ico" --include-package-data=qt_material --onefile main.py` <br>
 Then, for Windows, you can run directly or pack it with NSIS or other pack programs such as advanced installer. <br>
 
 ## Known issues
