@@ -37,6 +37,7 @@ Just tested in Windows and exe release version of Windows.
 ## Things To Do
 - [x] ~~Data Export~~ <br>
 - [x] ~~Real time plot~~ <br>
+- [x] ~~Multiple devices support~~ <br>
 ## Development
 # Requirements
 Python 3.8 <br>
