@@ -55,12 +55,11 @@ All the resource files are included in ./Ui/resources.qrc. Then enter Ui fold an
 The nuitka commands are shown below:
 ```shell
 # Nuitka Single File
-python -m nuitka --standalone --windows-disable-console --enable-plugin=pyside6 --show-progress --windows-icon-from-ico=".\Ui\Logo.ico" --include-package-data=qt_material --output-dir="./Releases/Single" --onefile 
+python -m nuitka --standalone --windows-disable-console --enable-plugin=pyside6 --show-progress --windows-icon-from-ico=".\Ui\Logo.ico" --include-package-data=qt_material --output-dir="./Releases/Single" --onefile main.py
 # Nuitka Single File Debug
-python -m nuitka --standalone --windows-disable-console --enable-plugin=pyside6 --show-progress --windows-icon-from-ico=".\Ui\Logo.ico" --include-package-data=qt_material --output-dir="./Releases/Single" --onefile
+python -m nuitka --standalone --enable-plugin=pyside6 --show-progress --windows-icon-from-ico=".\Ui\Logo.ico" --include-package-data=qt_material --output-dir="./Releases/Single_Debug" --onefile main.py
 # Nuitka Normal
-python -m nuitka --standalone --enable-plugin=pyside6 --show-progress --windows-icon-from-ico=".\Ui\Logo.ico" --include-package-data=qt_material --onefile --output-dir="./Releases/Single_Debug" main.py
-main.py
+python -m nuitka --standalone --windows-disable-console  --enable-plugin=pyside6 --show-progress --windows-icon-from-ico=".\Ui\Logo.ico" --include-package-data=qt_material --output-dir="./Releases/Normal" main.py
 ```
 
 Then, for Windows, you can run directly or pack it with NSIS or other pack programs such as advanced installer. <br>
