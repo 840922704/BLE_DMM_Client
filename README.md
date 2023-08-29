@@ -1,6 +1,6 @@
 # BLE_DMM_Client 蓝牙万用表客户端
-Bluetooth Multimeter Client <br>
-适配市场主流蓝牙通讯的万用表<br>
+An Bluetooth Multimeter Client. Using Pyside6 and bleak. <br>
+适配市场主流蓝牙通讯的万用表，使用pyside6和bleak <br>
 ## UI
 v3.2 in win11: <br>
 <br>
@@ -51,30 +51,17 @@ Whether using conda (or other virtual env management) or not, it's recommended t
 ## Environment：
 First install the nuitka: <br>
 `pip install nuitka` <br>
-## Compile
-### Script for Windows
-Enter your enviroonment (Virtual recommand) -> Install all packages needed -> Enter ./Releases fold and type 'Compile_Windows.bat' to run script.
-### Manually Compile
-nuitka will occur crash with pyqtgraph (see issue #1532 in nuitka, Github). So delete the export function in pyqtgraph.<br>
-```shell
-# Enter fold
-cd ./Releases
-# All the resource files are included in ./Ui/resources.qrc. Then enter Ui fold and run if rousources been modified.
-# Entering Pyside6-rcc Resources Compile
-pyside6-rcc ../Ui/resources.qrc -o ../Ui/resources_rc.py
-
-# Entering Nuitka Single File Compile
-python -m nuitka --standalone --windows-disable-console --enable-plugin=pyside6 --show-progress --windows-icon-from-ico="..\Ui\Logo.ico" --include-package-data=qt_material --output-dir="./Single" --onefile "../BLE DMM Client.py"
-
-# Entering Nuitka Single File Debug Compile
-python -m nuitka --standalone --enable-plugin=pyside6 --show-progress --windows-icon-from-ico="..\Ui\Logo.ico" --include-package-data=qt_material --output-dir="./Single_Debug" --onefile "../BLE DMM Client.py"
-
-# Entering Nuitka Normal Compile
-python -m nuitka --standalone --windows-disable-console --enable-plugin=pyside6 --show-progress --windows-icon-from-ico="..\Ui\Logo.ico" --include-package-data=qt_material --output-dir="./Normal" "../BLE DMM Client.py"
-```
-
+## Compile (Scripts for Windows)
+See the files in releases fold for detail.
+### Nuitka
+Enter your enviroonment (Virtual recommand) -> Install all packages needed -> Enter ./Releases fold and type 'Compile_Windows.bat' to run script.<br>
+nuitka will occur crash with pyqtgraph (see issue #1532 in nuitka, Github). So the export function in pyqtgraph had been deleted.<br>
+**Note**: All the resource files are included in ./Ui/resources.qrc.<br>
+### Advanced Installer
 Then, for Windows, you can run directly or pack it with NSIS or other pack programs such as advanced installer. <br>
-
+For example, using "BLE DMM Client.aip" in /Releases/Advanced_Install.<br>
+### Zip for Releases
+Run "/Releases/3.Copy_and _Compress.bat".
 ## Known issues
 
 ### Compiled file may get the error below:
