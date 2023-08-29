@@ -1,3 +1,6 @@
+@ rem Compile with Nuitka in Windows python3.8
+cd /d %~dp0
+
 echo Entering Pyside6-rcc Resources Compile
 pyside6-rcc ../Ui/resources.qrc -o ../Ui/resources_rc.py
 
