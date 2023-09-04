@@ -40,30 +40,35 @@ Just tested in Windows and exe release version of Windows.
 - None <br>
 - Maybe self-defined ble decoder support in the future.<br>
 
-## Development
-# Requirements
+# Development
+## Requirements
 Python 3.8 <br>
 pyside6 pyqtgraph qt_material bleak <br>
-Also need Nuitka (or pyinstaller if you wanted) <br>
+pyinstaller (nuitka not recommend because of seriously memory leak problem) <br>
 If using Linux, need BlueZ >= 5.43 (additionally required by bleak) <br>
 Whether using conda (or other virtual env management) or not, it's recommended to use 'pip install' to install all packages listed in requirements.txt. <br>
-# The way to compile for Windows:
-## Environment：
-First install the nuitka: <br>
-`pip install nuitka` <br>
-## Compile (Scripts for Windows)
+Run:
+```shell
+python main.py
+```
+## The way to pack for Windows:
+### Environment：
+First install the pyinstaller: <br>
+`pip install pyinstaller` <br>
+### Pack (Scripts for Windows)
 See the files in releases fold for detail.
-### Nuitka
-Enter your enviroonment (Virtual recommand) -> Install all packages needed -> Enter ./Releases fold and type 'Compile_Windows.bat' to run script.<br>
-nuitka will occur crash with pyqtgraph (see issue #1532 in nuitka, Github). So the export function in pyqtgraph had been deleted.<br>
+### PyInstaller
+Enter your enviroonment (Virtual recommand) -> Install all packages needed -> Run the file: "/Releases/Win64/1.pyinstaller.bat".<br>
 **Note**: All the resource files are included in ./Ui/resources.qrc.<br>
 ### Advanced Installer
 Then, for Windows, you can run directly or pack it with NSIS or other pack programs such as advanced installer. <br>
-For example, using "BLE DMM Client.aip" in /Releases/Advanced_Install.<br>
+For example, using "BLE DMM Client.aip" in "/Releases/Win64/Advanced_Install".<br>
 ### Zip for Releases
-Run "/Releases/3.Copy_and _Compress.bat".
-## Known issues
+Run "/Releases/Win64/3.Copy_and _Compress.bat".<br>
 
+## Known issues
+### Memory leak
+Packing by Nuitka will cause a serious memory leak problem, so PyInstaller is recommended.<br>
 ### Compiled file may get the error below:
 ```
 File "C:\MAIN~1.DIS\pyqtgraph\graphicsItems\ButtonItem.py", line 19, in __init__
@@ -72,7 +77,6 @@ ZeroDivisionError: float division by zero
 They just fix this bug in [2022.04](https://github.com/pyqtgraph/pyqtgraph/blob/a237b6e6a606b6625069a39cda9aa072e07e1882/pyqtgraph/graphicsItems/ButtonItem.py), if you use old version, please fix it manually, change line 18 of ButtonItem.py in your env:
 `if width is not None:` to `if width is not None and self.pixmap.width():` <br>
 Cross-platform ability in theory, but not tested yet. <br>
-
 ### qt_material issue
 qt_material's dark theme have some issues with pyside6. Current version (2.14) not fixed yet, so manually add part of stylesheet in main.py.
 ```python
