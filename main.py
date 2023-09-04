@@ -334,7 +334,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow, QtStyleTools):
         self.setupUi(self)
         #self.setWindowTitle('BLE DMM Client')
 
-
         ## Themes
         def Theme_Dark(self):
             extra = {
