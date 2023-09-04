@@ -23,6 +23,14 @@ from bleak import BleakClient
 import threading
 from bleak import BleakScanner
 
+# pyinstaller splash screen
+import importlib
+if '_PYIBoot_SPLASH' in os.environ and importlib.util.find_spec("pyi_splash"):
+    import pyi_splash
+    pyi_splash.update_text('UI Loaded ...')
+    pyi_splash.close()
+    # log.info('Splash screen closed.')
+
 ADDRESS_Signal = ""
 
 class DialogWindow(QDialog, Ui_Dialog):
@@ -71,7 +79,7 @@ class DialogWindow(QDialog, Ui_Dialog):
         self.plot_plt = pg.PlotWidget(axisItems={'bottom': pg.DateAxisItem()})
         # Remove export item because pyqtgraph will crash when compiled by nuitka.
         # (issues #1532 in nuitka, Github)
-        self.plot_plt.scene().contextMenu = None
+        # self.plot_plt.scene().contextMenu = None
         self.plot_plt.setMinimumHeight(200)
         self.plot_plt.showGrid(x=True,y=True)
         self.graph_layout.addWidget(self.plot_plt)

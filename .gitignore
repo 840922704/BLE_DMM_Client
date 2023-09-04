@@ -3,15 +3,14 @@
 
 
 ### Release files ###
-Releases/Final_Releases
+Releases/Win64/Final_Releases
 ### Advanced Installer ###
-Releases/Advanced_Install/BLE DMM Client-cache/
-Releases/Advanced_Install/BLE DMM Client-SetupFiles/
+Releases/Win64/Advanced_Install/BLE DMM Client-cache/
+Releases/Win64/Advanced_Install/BLE DMM Client-SetupFiles/
 
-### Nuitka Releases ###
-Releases/Single/
-Releases/Single_Debug/
-Releases/Normal/
+### Releases' packages ###
+Releases/Win64/build/
+Releases/Win64/dist/
 
 ### Tmp path ###
 Saved_Data/
