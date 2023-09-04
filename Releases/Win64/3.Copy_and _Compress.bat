@@ -1,5 +1,4 @@
 @ rem Copy and Compress
-
 cd /d %~dp0
 
 del .\Final_Releases\BLE.DMM.Client.x64_win_Installer.zip
